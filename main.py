@@ -67,11 +67,12 @@ def coords(update, context):
         return
 
     img = Image.open('res/loc.png', 'r')
+    img = img.resize((16, 16))
     img_w, img_h = img.size
     background = Image.open('res/Trad_trasses.jpg', 'r')
     bg_w, bg_h = background.size
     offset = (0, 0)
-    background.paste(img, offset)
+    background.paste(img, offset, img)  # third parameter is alpha mask
     filename = get_random_alphanumeric_string(12)
     background.save(f'res/{filename}.png')
     update.message.reply_photo(photo=open(f'res/{filename}.png', 'rb'))
