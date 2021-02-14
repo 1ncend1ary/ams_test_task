@@ -32,16 +32,16 @@ start_text = """
 Author: [incend1ary](https://t.me/incend1ary)
 Source code: [GitHub](https://github.com/1ncend1ary/ams_test_task)
 
-/start -- display this message
-/help -- get commands help
-/coords lat long -- get a map with marked location
+/start \- display this message
+/help \- get commands help
+/coords lat long \- get a map with marked location
 Format: 0 <= lat <= 100, 0 <= long <= 100
 """
 
 commands_text = """
-/start -- display the start message
-/help -- get this help
-/coords lat long -- get a map with marked location
+/start \- display the start message
+/help \- get this help
+/coords lat long \- get a map with marked location
 Format: 0 <= lat <= 100, 0 <= long <= 100
 """
 
