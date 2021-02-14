@@ -71,7 +71,7 @@ def coords(update, context):
 
     background = Image.open('res/Trad_trasses.jpg', 'r')
     bg_w, bg_h = background.size
-    fg_size = min(bg_w, bg_h) * 7 / 100
+    fg_size = int(min(bg_w, bg_h) * 7 / 100)
     foreground = Image.open('res/loc.png', 'r').convert('RGBA').resize((fg_size, fg_size))
 
     offset = (200, 200)
