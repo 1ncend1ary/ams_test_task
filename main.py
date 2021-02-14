@@ -33,14 +33,15 @@ def help(update, context):
 
 def coords(update, context):
     """Send the coordinates picture"""
-    img = Image.open('res/loc.jpg', 'r')
+    long, latt = map(float, update.message.text.split())
+    img = Image.open('res/loc.png', 'r')
     img_w, img_h = img.size
     background = Image.open('res/Trad_trasses.jpg', 'r')
     bg_w, bg_h = background.size
-    offset = ((bg_w - img_w) // 2, (bg_h - img_h) // 2)
+    offset = (0, 0)
     background.paste(img, offset)
-    background.save('res/out.png')
-    update.message.reply_photo(photo=open('res/out.png', 'rb'))
+    # background.save('res/out.png')
+    update.message.reply_photo(photo=background)
 
 
 def error(update, context):
