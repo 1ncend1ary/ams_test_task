@@ -60,7 +60,12 @@ def help(update, context):
 
 def coords(update, context):
     """Send the coordinates picture"""
-    long, latt = map(float, update.message.text.split()[1:])
+    try:
+        long, latt = map(float, update.message.text.split()[1:])
+    except ValueError:
+        update.message.reply_text('Incorrect coordinates specified')
+        return
+
     img = Image.open('res/loc.png', 'r')
     img_w, img_h = img.size
     background = Image.open('res/Trad_trasses.jpg', 'r')
@@ -70,7 +75,7 @@ def coords(update, context):
     filename = get_random_alphanumeric_string(12)
     background.save(f'res/{filename}.png')
     update.message.reply_photo(photo=open(f'res/{filename}.png', 'rb'))
-    # os.remove(f'res/{filename}.png')
+    os.remove(f'res/{filename}.png')
 
 
 def error(update, context):
