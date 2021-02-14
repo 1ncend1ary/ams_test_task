@@ -67,7 +67,7 @@ def coords(update, context):
         return
 
     img = Image.open('res/loc.png', 'r')
-    img.convert('RGBA')
+    img = img.convert('RGBA')
     img = img.resize((16, 16))
     img_w, img_h = img.size
     background = Image.open('res/Trad_trasses.jpg', 'r')
