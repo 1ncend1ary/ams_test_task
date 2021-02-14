@@ -35,14 +35,14 @@ Source code: [GitHub](https://github.com/1ncend1ary/ams_test_task)
 /start \- display this message
 /help \- get commands help
 /coords lat long \- get a map with marked location
-Format: 0 <\= lat <\= 100, 0 <\= long <\= 100
+Format: 0 <\= lat <\= 100, 0 <\= long <\= 60
 """
 
 commands_text = """
 /start \- display the start message
 /help \- get this help
 /coords lat long \- get a map with marked location
-Format: 0 <\= lat <\= 100, 0 <\= long <\= 100
+Format: 0 <\= lat <\= 100, 0 <\= long <\= 60
 """
 
 
@@ -61,20 +61,19 @@ def help(update, context):
 def coords(update, context):
     """Send the coordinates picture"""
     try:
-        long, latt = map(float, update.message.text.split()[1:])
+        latt, long = map(float, update.message.text.split()[1:])
     except ValueError:
         update.message.reply_text('Incorrect coordinates specified')
         return
 
-    max_w = 100
-    max_h = 100
+    max_w, max_h = 100, 60
 
     background = Image.open('res/Trad_trasses.jpg', 'r')
     bg_w, bg_h = background.size
     fg_size = int(min(bg_w, bg_h) * 7 / 100)
     foreground = Image.open('res/loc.png', 'r').convert('RGBA').resize((fg_size, fg_size))
 
-    offset = (int(long / max_w * bg_w - fg_size / 2), int(bg_h - latt / max_h * latt - fg_size))
+    offset = (int(long / max_w * bg_w - fg_size / 2), int(bg_h - latt / max_h * bg_h - fg_size))
     background.paste(foreground, offset, foreground)  # third parameter is alpha mask
     filename = get_random_alphanumeric_string(12)
     background.save(f'res/{filename}.png')
