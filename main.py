@@ -7,6 +7,7 @@ import logging
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import os
 import secrets
+from PIL import Image
 
 TOKEN = os.environ['ENV_BOT_TOKEN']
 PORT = int(os.environ.get('PORT', 5000))
@@ -32,7 +33,14 @@ def help(update, context):
 
 def coords(update, context):
     """Send the coordinates picture"""
-    update.message.reply_photo(photo=open('res/Trad_trasses.jpg', 'rb'))
+    img = Image.open('res/loc.jpg', 'r')
+    img_w, img_h = img.size
+    background = Image.open('res/Trad_trasses.jpg', 'r')
+    bg_w, bg_h = background.size
+    offset = ((bg_w - img_w) // 2, (bg_h - img_h) // 2)
+    background.paste(img, offset)
+    background.save('res/out.png')
+    update.message.reply_photo(photo=open('res/out.png', 'rb'))
 
 
 def error(update, context):
