@@ -6,8 +6,9 @@ Deployed using heroku.
 import logging
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import os
-from secrets import TOKEN
+import secrets
 
+TOKEN = os.environ['ENV_BOT_TOKEN']
 PORT = int(os.environ.get('PORT', 5000))
 
 # Enable logging
@@ -64,7 +65,7 @@ def main():
     updater.start_webhook(listen="0.0.0.0",
                           port=int(PORT),
                           url_path=TOKEN)
-    updater.bot.setWebhook('https://yourherokuappname.herokuapp.com/' + TOKEN)
+    updater.bot.setWebhook('https://ams-test-task.herokuapp.com/' + TOKEN)
 
     # Run the bot until you press Ctrl-C or the process receives SIGINT,
     # SIGTERM or SIGABRT. This should be used most of the time, since
