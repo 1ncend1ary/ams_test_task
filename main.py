@@ -74,7 +74,7 @@ def coords(update, context):
     fg_size = int(min(bg_w, bg_h) * 7 / 100)
     foreground = Image.open('res/loc.png', 'r').convert('RGBA').resize((fg_size, fg_size))
 
-    offset = (200, 200)
+    offset = map(int, (bg_h - latt / max_h * latt - fg_size, long / max_w * bg_w - fg_size / 2))
     background.paste(foreground, offset, foreground)  # third parameter is alpha mask
     filename = get_random_alphanumeric_string(12)
     background.save(f'res/{filename}.png')
