@@ -4,6 +4,8 @@ Deployed using heroku.
 """
 
 import logging
+
+import telegram
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import os
 import secrets
@@ -26,17 +28,34 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 
 logger = logging.getLogger(__name__)
 
+start_text = """
+Author: [https://t.me/incend1ary](@incend1ary)
+Source code: [https://github.com/1ncend1ary/ams_test_task](GitHub)
+
+/start -- display this message
+/help -- get commands help
+/coords lat long -- get a map with marked location
+Format: 0 <= lat <= 100, 0 <= long <= 100
+"""
+
+commands_text = """
+/start -- display the start message
+/help -- get this help
+/coords lat long -- get a map with marked location
+Format: 0 <= lat <= 100, 0 <= long <= 100
+"""
+
 
 # Define a few command handlers. These usually take the two arguments update and
 # context. Error handlers also receive the raised TelegramError object in error.
 def start(update, context):
     """Send a message when the command /start is issued."""
-    update.message.reply_text("""Hey!""")
+    update.message.reply_text(start_text, parse_mode=telegram.ParseMode.MARKDOWN_V2)
 
 
 def help(update, context):
     """Send a message when the command /help is issued."""
-    update.message.reply_text("""Help!""")
+    update.message.reply_text(commands_text, parse_mode=telegram.ParseMode.MARKDOWN_V2)
 
 
 def coords(update, context):
@@ -51,7 +70,7 @@ def coords(update, context):
     filename = get_random_alphanumeric_string(12)
     background.save(f'res/{filename}.png')
     update.message.reply_photo(photo=open(f'res/{filename}.png', 'rb'))
-    os.remove(f'res/{filename}.png')
+    # os.remove(f'res/{filename}.png')
 
 
 def error(update, context):
