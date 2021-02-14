@@ -22,17 +22,17 @@ logger = logging.getLogger(__name__)
 # context. Error handlers also receive the raised TelegramError object in error.
 def start(update, context):
     """Send a message when the command /start is issued."""
-    update.message.reply_text("""""")
+    update.message.reply_text("""Hey!""")
 
 
 def help(update, context):
     """Send a message when the command /help is issued."""
-    update.message.reply_text("""""")
+    update.message.reply_text("""Help!""")
 
 
 def coords(update, context):
     """Send the coordinates picture"""
-    update.reply_photo(photo=open('res/Trad_trasses.jpg', 'rb'))
+    update.message.reply_photo(photo=open('res/Trad_trasses.jpg', 'rb'))
 
 
 def error(update, context):
