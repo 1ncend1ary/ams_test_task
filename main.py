@@ -66,14 +66,16 @@ def coords(update, context):
         update.message.reply_text('Incorrect coordinates specified')
         return
 
-    img = Image.open('res/loc.png', 'r')
-    img = img.convert('RGBA')
-    img = img.resize((16, 16))
-    img_w, img_h = img.size
+    max_w = 100
+    max_h = 100
+
     background = Image.open('res/Trad_trasses.jpg', 'r')
     bg_w, bg_h = background.size
-    offset = (0, 0)
-    background.paste(img, offset, img)  # third parameter is alpha mask
+    fg_size = min(bg_w, bg_h) * 7 / 100
+    foreground = Image.open('res/loc.png', 'r').convert('RGBA').resize((fg_size, fg_size))
+
+    offset = (200, 200)
+    background.paste(foreground, offset, foreground)  # third parameter is alpha mask
     filename = get_random_alphanumeric_string(12)
     background.save(f'res/{filename}.png')
     update.message.reply_photo(photo=open(f'res/{filename}.png', 'rb'))
