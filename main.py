@@ -29,7 +29,7 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 logger = logging.getLogger(__name__)
 
 start_text = """
-Author: [incend1ary](https://t.me/incend1ary)
+Author: [incend1ary](https://t.me/incend1ary) \[Aleksei Seliverstov\]
 Source code: [GitHub](https://github.com/1ncend1ary/ams_test_task)
 
 /start \- display this message
