@@ -8,6 +8,14 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import os
 import secrets
 from PIL import Image
+import random
+import string
+
+
+def get_random_alphanumeric_string(length):
+    """ Get a string of random alphanumeric characters of specified length"""
+    return ''.join((random.choice(string.ascii_letters + string.digits) for _ in range(length)))
+
 
 TOKEN = os.environ['ENV_BOT_TOKEN']
 PORT = int(os.environ.get('PORT', 5000))
@@ -40,8 +48,10 @@ def coords(update, context):
     bg_w, bg_h = background.size
     offset = (0, 0)
     background.paste(img, offset)
-    # background.save('res/out.png')
-    update.message.reply_photo(photo=background)
+    filename = get_random_alphanumeric_string(12)
+    background.save(f'res/{filename}.png')
+    update.message.reply_photo(photo=open(f'res/{filename}.png', 'rb'))
+    os.remove(f'res/{filename}.png')
 
 
 def error(update, context):
