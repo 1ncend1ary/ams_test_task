@@ -1,17 +1,19 @@
 """
-Simple Bot to reply to Telegram messages taken from the python-telegram-bot examples.
+Simple Bot taken from the python-telegram-bot examples.
 Deployed using heroku.
 """
 
 import logging
-
-import telegram
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import os
-import secrets
-from PIL import Image
 import random
 import string
+
+import telegram
+from PIL import Image
+from telegram.ext import Updater, CommandHandler
+
+import secrets
+import static
 
 
 def get_random_alphanumeric_string(length):
@@ -28,34 +30,17 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 
 logger = logging.getLogger(__name__)
 
-start_text = """
-Author: [incend1ary](https://t.me/incend1ary) \[Aleksei Seliverstov\]
-Source code: [GitHub](https://github.com/1ncend1ary/ams_test_task)
-
-/start \- display this message
-/help \- get commands help
-/coords long lat \- get a map with marked location
-Format: 0 <\= lat <\= 100, 0 <\= long <\= 60
-"""
-
-commands_text = """
-/start \- display the start message
-/help \- get this help
-/coords long lat \- get a map with marked location
-Format: 0 <\= lat <\= 100, 0 <\= long <\= 60
-"""
-
 
 # Define a few command handlers. These usually take the two arguments update and
 # context. Error handlers also receive the raised TelegramError object in error.
 def start(update, context):
     """Send a message when the command /start is issued."""
-    update.message.reply_text(start_text, parse_mode=telegram.ParseMode.MARKDOWN_V2)
+    update.message.reply_text(static.start_text, parse_mode=telegram.ParseMode.MARKDOWN_V2)
 
 
 def help(update, context):
     """Send a message when the command /help is issued."""
-    update.message.reply_text(commands_text, parse_mode=telegram.ParseMode.MARKDOWN_V2)
+    update.message.reply_text(static.commands_text, parse_mode=telegram.ParseMode.MARKDOWN_V2)
 
 
 def coords(update, context):
@@ -66,15 +51,14 @@ def coords(update, context):
         update.message.reply_text('Incorrect coordinates specified')
         return
 
-    max_w, max_h = 100, 60
-
-    background = Image.open('res/Trad_trasses.jpg', 'r')
+    background = Image.open('res/map.jpg', 'r')
     bg_w, bg_h = background.size
     fg_size = int(min(bg_w, bg_h) * 7 / 100)
     foreground = Image.open('res/loc.png', 'r').convert('RGBA').resize((fg_size, fg_size))
 
-    offset = (int(long / max_w * bg_w - fg_size / 2), int(bg_h - latt / max_h * bg_h - fg_size))
+    offset = (int(long / static.max_w * bg_w - fg_size / 2), int(bg_h - latt / static.max_h * bg_h - fg_size))
     background.paste(foreground, offset, foreground)  # third parameter is alpha mask
+
     filename = get_random_alphanumeric_string(12)
     background.save(f'res/{filename}.png')
     update.message.reply_photo(photo=open(f'res/{filename}.png', 'rb'))
