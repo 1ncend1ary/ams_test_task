@@ -46,8 +46,8 @@ def help(update, context):
 def coords(update, context):
     """Send the coordinates picture"""
     try:
-        latt, long = map(float, update.message.text.split()[1:])
-        if latt < static.min_w or long < static.min_h or latt > static.max_w or long > static.max_h:
+        long, latt = map(float, update.message.text.split()[1:])
+        if long < static.min_h or latt < static.min_w or long > static.max_h or latt > static.max_w:
             raise ValueError
     except ValueError:
         update.message.reply_text('Incorrect coordinates specified')
@@ -58,7 +58,7 @@ def coords(update, context):
     fg_size = int(min(bg_w, bg_h) * 7 / 100)
     foreground = Image.open('res/loc.png', 'r').convert('RGBA').resize((fg_size, fg_size))
 
-    offset = (int(long / static.max_w * bg_w - fg_size / 2), int(bg_h - latt / static.max_h * bg_h - fg_size))
+    offset = (int(latt / static.max_w * bg_w - fg_size / 2), int(bg_h - long / static.max_h * bg_h - fg_size))
     background.paste(foreground, offset, foreground)  # third parameter is alpha mask
 
     filename = get_random_alphanumeric_string(12)
