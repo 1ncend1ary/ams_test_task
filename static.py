@@ -15,4 +15,7 @@ commands_text = """
 Format: 0 <\= long <\= 67, 0 <\= lat <\= 100
 """
 
+# this scale is caused by the map image
+# being 1600 x 1100
+min_w, min_h = 0, 0
 max_w, max_h = 100, 67

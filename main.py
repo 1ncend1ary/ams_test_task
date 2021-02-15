@@ -47,6 +47,8 @@ def coords(update, context):
     """Send the coordinates picture"""
     try:
         latt, long = map(float, update.message.text.split()[1:])
+        if latt < static.min_w or long < static.min_h or latt > static.max_w or long > static.max_h:
+            raise ValueError
     except ValueError:
         update.message.reply_text('Incorrect coordinates specified')
         return
