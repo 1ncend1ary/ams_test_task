@@ -71,8 +71,8 @@ def coords(update, context):
 
 def location(update: Update, context: CallbackContext):
     user_location = update.message.location
-    if user_location.longitude in range(static.min_h, static.max_h) and \
-            user_location.latitude in range(static.min_w, static.max_w):
+    if static.min_h <= user_location.longitude <= static.max_h and \
+            static.min_w <= user_location.latitude <= static.max_w:
         update.message.reply_text(f'You are on point! '
                                   f'Your location is: {user_location.longitude} {user_location.latitude}')
     else:
