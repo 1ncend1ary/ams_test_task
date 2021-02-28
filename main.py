@@ -10,7 +10,8 @@ import string
 
 import telegram
 from PIL import Image
-from telegram.ext import Updater, CommandHandler
+from telegram import Update
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
 
 import secrets
 import static
@@ -68,6 +69,17 @@ def coords(update, context):
     os.remove(f'res/{filename}.png')
 
 
+def location(update: Update, context: CallbackContext):
+    user_location = update.message.location
+    if user_location.longitude in range(static.min_h, static.max_h) and \
+            user_location.latitude in range(static.min_w, static.max_w):
+        update.message.reply_text(f'You are on point! '
+                                  f'Your location is: {user_location.longitude} {user_location.latitude}')
+    else:
+        update.message.reply_text(f'You are not inside the map. '
+                                  f'Your location however is: {user_location.longitude} {user_location.latitude}')
+
+
 def error(update, context):
     """Log Errors caused by Updates."""
     logger.warning('Update "%s" caused error "%s"', update, context.error)
@@ -87,6 +99,7 @@ def main():
     dp.add_handler(CommandHandler("start", start))
     dp.add_handler(CommandHandler("help", help_nandler))
     dp.add_handler(CommandHandler("coords", coords))
+    dp.add_handler(MessageHandler(Filters.location, location))
 
     # log all errors
     dp.add_error_handler(error)
