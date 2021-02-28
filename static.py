@@ -5,14 +5,14 @@ Source code: [GitHub](https://github.com/1ncend1ary/ams_test_task)
 /start \- display this message
 /help \- get commands help
 /coords long lat \- get a map with marked location
-Format: integers, 0 <\= long <\= 67, 0 <\= lat <\= 100
+Format: integers, 60.211170 <\= long <\= 60.220899, 29.724268 <\= lat <\= 29.781255
 """
 
 commands_text = """
 /start \- display the start message
 /help \- get this help
 /coords long lat \- get a map with marked location
-Format: integers, 0 <\= long <\= 67, 0 <\= lat <\= 100
+Format: integers, 60.211170 <\= long <\= 60.220899, 29.724268 <\= lat <\= 29.781255
 """
 
 # this scale is caused by the map image
