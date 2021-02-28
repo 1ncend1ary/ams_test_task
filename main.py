@@ -33,17 +33,17 @@ logger = logging.getLogger(__name__)
 
 # Define a few command handlers. These usually take the two arguments update and
 # context. Error handlers also receive the raised TelegramError object in error.
-def start(update):
+def start(update, context):
     """Send a message when the command /start is issued."""
     update.message.reply_text(static.start_text, parse_mode=telegram.ParseMode.MARKDOWN_V2)
 
 
-def help_nandler(update):
+def help_nandler(update, context):
     """Send a message when the command /help is issued."""
     update.message.reply_text(static.commands_text, parse_mode=telegram.ParseMode.MARKDOWN_V2)
 
 
-def coords(update):
+def coords(update, context):
     """Send the coordinates picture"""
     try:
         y, x = map(float, update.message.text.split()[1:])
