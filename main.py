@@ -78,6 +78,8 @@ def location(update: Update, context: CallbackContext):
     else:
         update.message.reply_text(f'You are not inside the map. '
                                   f'Your location however is: {user_location.longitude} {user_location.latitude}')
+        update.message.text = f'{user_location.latitude} {user_location.longitude}'
+        coords(update, context)
 
 
 def error(update, context):
