@@ -33,21 +33,21 @@ logger = logging.getLogger(__name__)
 
 # Define a few command handlers. These usually take the two arguments update and
 # context. Error handlers also receive the raised TelegramError object in error.
-def start(update, context):
+def start(update):
     """Send a message when the command /start is issued."""
     update.message.reply_text(static.start_text, parse_mode=telegram.ParseMode.MARKDOWN_V2)
 
 
-def help(update, context):
+def help_nandler(update):
     """Send a message when the command /help is issued."""
     update.message.reply_text(static.commands_text, parse_mode=telegram.ParseMode.MARKDOWN_V2)
 
 
-def coords(update, context):
+def coords(update):
     """Send the coordinates picture"""
     try:
-        long, latt = map(float, update.message.text.split()[1:])
-        if long < static.min_h or latt < static.min_w or long > static.max_h or latt > static.max_w:
+        y, x = map(float, update.message.text.split()[1:])
+        if y < static.min_h or x < static.min_w or y > static.max_h or x > static.max_w:
             raise ValueError
     except ValueError:
         update.message.reply_text('Incorrect coordinates specified')
@@ -58,7 +58,8 @@ def coords(update, context):
     fg_size = int(min(bg_w, bg_h) * 7 / 100)
     foreground = Image.open('res/loc.png', 'r').convert('RGBA').resize((fg_size, fg_size))
 
-    offset = (int(latt / static.max_w * bg_w - fg_size / 2), int(bg_h - long / static.max_h * bg_h - fg_size))
+    offset = (int((x - static.min_w) / (static.max_w - static.min_w) * bg_w - fg_size / 2),
+              int(bg_h - (y - static.min_h) / (static.max_h - static.min_h) * bg_h - fg_size))
     background.paste(foreground, offset, foreground)  # third parameter is alpha mask
 
     filename = get_random_alphanumeric_string(12)
@@ -84,7 +85,7 @@ def main():
 
     # on different commands - answer in Telegram
     dp.add_handler(CommandHandler("start", start))
-    dp.add_handler(CommandHandler("help", help))
+    dp.add_handler(CommandHandler("help", help_nandler))
     dp.add_handler(CommandHandler("coords", coords))
 
     # log all errors
